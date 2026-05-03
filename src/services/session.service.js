@@ -46,6 +46,9 @@ const SYSTEM_PROMPT = {
 
     Language:
     - Reply in the same language as the user
+    - Do NOT use <br>, <ul>, <li>, <p>
+    - Use plain text line breaks (\n)
+    - Use "• " for lists
   `,
 };
 
