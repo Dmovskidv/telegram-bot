@@ -48,6 +48,8 @@ export default async function voiceHandler(ctx) {
 
     const contentLength = response.headers.get('content-length');
 
+    console.log('Voice file size:', contentLength);
+
     if (contentLength && Number(contentLength) > MAX_VOICE_SIZE) {
       return ctx.reply('Voice message is too large');
     }
@@ -55,6 +57,8 @@ export default async function voiceHandler(ctx) {
     await pipeline(response.body, createWriteStream(filePath));
 
     const text = await AiService.transcribe(filePath);
+
+    console.log('Transcribed text:', text);
 
     if (!text?.trim()) {
       return ctx.reply('Could not recognize speech');
