@@ -12,7 +12,7 @@ const WEBHOOK_URL = `${DOMAIN}${WEBHOOK_PATH}`;
 
 const bot = telegramService.createBot();
 
-app.use(WEBHOOK_PATH, bot.webhookCallback(WEBHOOK_PATH));
+app.use(bot.webhookCallback(WEBHOOK_PATH));
 
 app.get('/', (req, res) => res.send('OK'));
 

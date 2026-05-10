@@ -12,7 +12,7 @@ const createBot = () => {
   const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
   bot.start(startHandler);
-  bot.on('text', () => textHandler);
+  bot.on('text', textHandler);
   bot.command('reset', resetHandler);
   bot.command('help', helpHandler);
 
