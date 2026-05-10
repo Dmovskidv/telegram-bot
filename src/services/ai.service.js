@@ -1,4 +1,5 @@
 import Groq from 'groq-sdk';
+import fs from 'fs';
 
 const client = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -13,4 +14,13 @@ const generate = async (messages) => {
   return res.choices?.[0]?.message?.content || '';
 };
 
-export default { generate };
+const transcribe = async (audioFilePath) => {
+  const res = await client.audio.transcriptions.create({
+    file: fs.createReadStream(audioFilePath),
+    model: 'whisper-large-v3-turbo',
+  });
+
+  return res.text || '';
+};
+
+export default { generate, transcribe };
