@@ -5,6 +5,7 @@ export const escapeHtml = (text = "") =>
     .replace(/>/g, "&gt;");
 
 export const formatAIResponse = (text = "") => {
+  log('FORMAT_AI_RESPONSE_INPUT:', text);
   let formatted = text.trim();
 
   // --- 1. Нормализация HTML от AI
@@ -49,5 +50,6 @@ export const formatAIResponse = (text = "") => {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
+  console.log('FORMAT_AI_RESPONSE_OUTPUT:', formatted);
   return formatted;
 };

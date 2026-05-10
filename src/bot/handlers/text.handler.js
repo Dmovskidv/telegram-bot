@@ -19,10 +19,14 @@ export default async (ctx) => {
     sessionService.addUserMessage(chatId, text);
 
     const history = sessionService.getHistory(chatId);
+    
+    console.log('HISTORY:', history);
 
     const aiResponse = await aiService.generate(history);
 
     sessionService.addAssistantMessage(chatId, aiResponse);
+    
+    console.log('AI_RESPONSE:', aiResponse);
 
     await ctx.reply(formatAIResponse(aiResponse), {
       parse_mode: "HTML",
