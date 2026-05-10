@@ -4,16 +4,16 @@ import rateLimit from '../../services/rate-limit.service.js';
 import { formatAIResponse } from '../../utils/format.js';
 
 export default async (ctx) => {
-  const chatId = ctx.chat.id;
-  const text = ctx.message?.text?.trim();
-
-  if (!text) return ctx.reply('Empty message');
-
-  if (rateLimit.isLimited(chatId)) {
-    return ctx.reply('Too many requests');
-  }
-
   try {
+    const chatId = ctx.chat.id;
+    const text = ctx.message?.text?.trim();
+
+    if (!text) return ctx.reply('Empty message');
+
+    if (rateLimit.isLimited(chatId)) {
+      return ctx.reply('Too many requests');
+    }
+
     await ctx.sendChatAction('typing');
 
     SessionService.addUserMessage(chatId, text);
