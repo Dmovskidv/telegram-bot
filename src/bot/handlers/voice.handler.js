@@ -64,8 +64,12 @@ export default async function voiceHandler(ctx) {
       return ctx.reply('Could not recognize speech');
     }
 
+    SessionService.addUserMessage(chatId, text);
+
     // atomic session update (prevents race issues)
     const history = SessionService.getHistory(chatId);
+
+    console.log('history', history);
 
     const aiResponse = await AiService.generate(history);
 
