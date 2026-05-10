@@ -4,7 +4,7 @@ const TTL = 1000 * 60 * 60;
 const sessions = new Map();
 
 const SYSTEM_PROMPT = {
-  role: "system",
+  role: 'system',
   content: `
     You are an AI assistant inside a Telegram bot.
 
@@ -90,7 +90,7 @@ const getHistory = (chatId) => {
 const addUserMessage = (chatId, text) => {
   const session = getSession(chatId);
 
-  session.history.push({ role: "user", content: text });
+  session.history.push({ role: 'user', content: text });
 
   if (session.history.length > MAX_HISTORY) {
     session.history.shift();
@@ -100,23 +100,31 @@ const addUserMessage = (chatId, text) => {
 const addAssistantMessage = (chatId, text) => {
   const session = getSession(chatId);
 
-  session.history.push({ role: "assistant", content: text });
+  session.history.push({ role: 'assistant', content: text });
 };
 
 const reset = (chatId) => {
   sessions.delete(chatId);
 };
 
+// cleanup sessions that haven't been used for a long time
 // TTL cleaner
-setInterval(() => {
-  const now = Date.now();
+const ttlCleaner = () => {
+  setInterval(
+    () => {
+      const now = Date.now();
 
-  for (const [id, session] of sessions.entries()) {
-    if (now - session.lastUsed > TTL) {
-      sessions.delete(id);
-    }
-  }
-}, 1000 * 60 * 10);
+      for (const [id, session] of sessions.entries()) {
+        if (now - session.lastUsed > TTL) {
+          sessions.delete(id);
+        }
+      }
+    },
+    1000 * 60 * 10,
+  ); // every 10 minutes
+};
+
+ttlCleaner();
 
 export default {
   getHistory,
